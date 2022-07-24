@@ -35,10 +35,30 @@ const MORSE_TABLE = {
     '---..':  '8',
     '----.':  '9',
     '-----':  '0',
+    ' ': ' ',
 };
 
 function decode(expr) {
-    // write your solution here
+    
+    const arrOfTens = expr.match(/.{1,10}/g);
+
+    let arrOfMorse = arrOfTens.map(makeMorse)
+
+    let arrOfLetters = arrOfMorse.map(makeLetter)
+
+    function makeMorse (elem) {
+        const initStr = elem.replace(/00/g, '');
+        const strWithoutStars = initStr.replaceAll('**********', ' ');
+        const morseStr1 = strWithoutStars.replace(/10/g, '.');
+        const morseStr2 = morseStr1.replace(/11/g, '-');
+        return morseStr2
+    }
+
+    function makeLetter (elem) {
+        return MORSE_TABLE[elem]
+    }
+
+    return arrOfLetters.join('')
 }
 
 module.exports = {
